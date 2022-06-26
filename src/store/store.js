@@ -1,8 +1,19 @@
-import { createStore } from "redux";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import errorReducer from "./errors";
+import { logger } from "./middleware/logger";
 import taskReducer from "./task";
 
-function configureStore() {
-  return createStore(taskReducer);
+const rootReducer = combineReducers({
+  errors: errorReducer,
+  tasks: taskReducer,
+});
+
+function createStore() {
+  return configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleWare) => getDefaultMiddleWare().concat(logger),
+    devtools: process.env.NODE_ENV !== "production",
+  });
 }
 
-export default configureStore;
+export default createStore;
