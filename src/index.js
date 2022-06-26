@@ -8,6 +8,7 @@ import {
   loadTasks,
   getTasks,
   getTasksLoadingStatus,
+  createTask,
 } from "./store/task";
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { getError } from "./store/errors";
@@ -22,7 +23,7 @@ const App = (params) => {
 
   useEffect(() => {
     dispatch(loadTasks());
-  }, []);
+  }, [dispatch]);
 
   const changeTitle = (taskId) => {
     dispatch(titleChanged(taskId));
@@ -40,7 +41,7 @@ const App = (params) => {
   return (
     <>
       <h1>App</h1>
-
+      <button onClick={() => dispatch(createTask())}>Crate task</button>
       <ul>
         {state.map((el) => (
           <li key={el.id}>
